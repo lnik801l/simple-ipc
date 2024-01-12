@@ -1,11 +1,11 @@
 {
     "type": "module",
-    "name": "placeholder",
+    "name": "simpleipc",
     "version": "1.0.0",
     "description": "",
     "main": "src/index.ts",
     "scripts": {
-        "prod": "tsc"
+        "build": "tsc"
     },
     "repository": {
         "type": "git",
