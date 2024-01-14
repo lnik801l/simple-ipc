@@ -1,28 +1,40 @@
 {
-  "compilerOptions": {
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "resolveJsonModule": true,
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "rootDir": "./src",
-    "allowSyntheticDefaultImports": true,
-    "importHelpers": true,
-    "alwaysStrict": true,
-    "strictNullChecks": true,
-    "sourceMap": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": false,
-    "outDir": "./dist",
-    "noUnusedParameters": false,
-    "noImplicitAny": false,
-    "noImplicitThis": false,
-    "skipLibCheck": true,
-    "lib": ["esnext"]
-  },
-  "include": ["src/**/*"]
+	"compilerOptions": {
+		/* Language and Environment */
+		"target": "ESNext",
+		"lib": ["ESNext"],
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"jsx": "react-jsx",
+
+		/* Modules */
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"moduleDetection": "force",
+		"allowImportingTsExtensions": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"]
+		},
+
+		/* Emit */
+		"noEmit": true,
+
+		/* Interop Constraints */
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+
+		/* Type Checking */
+		"strict": true,
+		"noImplicitThis": true,
+		"useUnknownInCatchVariables": true,
+		"alwaysStrict": true,
+		"noImplicitReturns": true,
+		"noImplicitOverride": true,
+		"noUncheckedIndexedAccess": true,
+
+		/* Completeness */
+		"skipLibCheck": true,
+	},
+	"exclude": ["src_old"]
 }
