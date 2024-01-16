@@ -13,9 +13,9 @@ function ensureParentPortOpen(
 }
 
 /**
- * Create an adapter that allows to communicate with worker threads.
+ * Create an adapter that allows to communicate with child workers.
  */
-export function createWorkerThreadAdapter<TMessage>(
+export function createMainThreadAdapter<TMessage>(
 	worker: Worker,
 	...workers: Worker[]
 ) {
@@ -43,7 +43,7 @@ export function createWorkerThreadAdapter<TMessage>(
 /**
  * Create an adapter that allows to communicate with the parent thread.
  */
-export function createParentThreadAdapter<TMessage>() {
+export function createWorkerThreadAdapter<TMessage>() {
 	return defineAdapter<TMessage>({
 		publish: (message) => {
 			ensureParentPortOpen(parentPort)

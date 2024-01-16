@@ -57,7 +57,8 @@ export namespace Protocol {
 
 export type DefineProtocol<TProtocol extends Protocol> = TProtocol
 
-export type DefineMethod<TSignature extends (...args: never) => unknown> =
-	Method<Parameters<TSignature>, ReturnType<TSignature>>
+export type DefineMethod<
+	TSignature extends (...args: never) => unknown = () => void,
+> = Method<Parameters<TSignature>, ReturnType<TSignature>>
 
 export type DefineEvent<TPayload = void> = Event<TPayload>
