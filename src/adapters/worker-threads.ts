@@ -15,27 +15,16 @@ function ensureParentPortOpen(
 /**
  * Create an adapter that allows to communicate with child workers.
  */
-export function createMainThreadAdapter<TMessage>(
-	worker: Worker,
-	...workers: Worker[]
-) {
-	const workerPool = [worker, ...workers]
-
+export function createWorkerThreadAdapter<TMessage>(worker: Worker) {
 	return defineAdapter<TMessage>({
 		publish: (message) => {
-			for (const worker of workerPool) {
-				worker.postMessage(message)
-			}
+			worker.postMessage(message)
 		},
 		subscribe: (callback) => {
-			for (const worker of workerPool) {
-				worker.on("message", callback)
-			}
+			worker.on("message", callback)
 		},
 		unsubscribe: (callback) => {
-			for (const worker of workerPool) {
-				worker.off("message", callback)
-			}
+			worker.off("message", callback)
 		},
 	})
 }
@@ -43,7 +32,7 @@ export function createMainThreadAdapter<TMessage>(
 /**
  * Create an adapter that allows to communicate with the parent thread.
  */
-export function createWorkerThreadAdapter<TMessage>() {
+export function createParentThreadAdapter<TMessage>() {
 	return defineAdapter<TMessage>({
 		publish: (message) => {
 			ensureParentPortOpen(parentPort)

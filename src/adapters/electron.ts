@@ -12,9 +12,7 @@ const electronIpcChannel = "ipc::message"
 /**
  * Create an adapter that allows to communicate with renderer process from main process.
  */
-export function createElectronMainThreadAdapter<TMessage>(
-	window: BrowserWindow,
-) {
+export function createRendererThreadAdapter<TMessage>(window: BrowserWindow) {
 	return defineAdapter<TMessage>({
 		publish: (message) => {
 			window.webContents.send(electronIpcChannel, message)
@@ -34,7 +32,7 @@ export function createElectronMainThreadAdapter<TMessage>(
 /**
  * Create an adapter that allows to communicate with main process from renderer process.
  */
-export function createElectronRendererThreadAdapter<TMessage>() {
+export function createMainThreadAdapter<TMessage>() {
 	const subscribers = new Map<
 		(message: TMessage) => void,
 		(event: IpcRendererEvent, message: TMessage) => void
