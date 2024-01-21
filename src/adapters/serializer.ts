@@ -15,7 +15,7 @@ export function createSerializedAdapter<TMessage>(
 	adapter: Adapter<string>,
 	serializer: Serializer,
 ) {
-	const serializedSubscribers = new Map<
+	const wrappedSubscribers = new Map<
 		(message: TMessage) => void,
 		(message: string) => void
 	>()
@@ -25,24 +25,24 @@ export function createSerializedAdapter<TMessage>(
 			adapter.publish(serializer.stringify(message))
 		},
 		subscribe: (callback) => {
-			const serializedCallback = (message: string) => {
+			const wrappedCallback = (message: string) => {
 				callback(serializer.parse(message) as TMessage)
 			}
 
-			adapter.subscribe(serializedCallback)
+			adapter.subscribe(wrappedCallback)
 
-			serializedSubscribers.set(callback, serializedCallback)
+			wrappedSubscribers.set(callback, wrappedCallback)
 		},
 		unsubscribe: (callback) => {
-			if (!serializedSubscribers.has(callback)) {
+			const wrappedCallback = wrappedSubscribers.get(callback)
+
+			if (!wrappedCallback) {
 				return
 			}
 
-			const serializedCallback = serializedSubscribers.get(callback)!
+			adapter.unsubscribe(wrappedCallback)
 
-			adapter.unsubscribe(serializedCallback)
-
-			serializedSubscribers.delete(callback)
+			wrappedSubscribers.delete(callback)
 		},
 	})
 }

@@ -33,7 +33,7 @@ export function createRendererThreadAdapter<TMessage>(window: BrowserWindow) {
  * Create an adapter that allows to communicate with main process from renderer process.
  */
 export function createMainThreadAdapter<TMessage>() {
-	const subscribers = new Map<
+	const wrappedSubscribers = new Map<
 		(message: TMessage) => void,
 		(event: IpcRendererEvent, message: TMessage) => void
 	>()
@@ -47,10 +47,12 @@ export function createMainThreadAdapter<TMessage>() {
 				callback(message)
 
 			ipcRenderer.on(electronIpcChannel, wrappedCallback)
-			subscribers.set(callback, wrappedCallback)
+
+			wrappedSubscribers.set(callback, wrappedCallback)
 		},
 		unsubscribe: (callback) => {
-			const wrappedCallback = subscribers.get(callback)
+			const wrappedCallback = wrappedSubscribers.get(callback)
+
 			if (!wrappedCallback) {
 				return
 			}
