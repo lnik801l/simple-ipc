@@ -20,9 +20,16 @@
     "release": "pnpm version -m 'chore(release): %s' --"
   },
   "exports": {
-    "import": "./build/index.js",
-    "require": "./build/index.cjs",
-    "types": "./build/index.d.ts"
+    ".": {
+      "types": "./build/index.d.ts",
+      "import": "./build/index.js",
+      "require": "./build/index.cjs"
+    },
+    "./adapters/*": {
+      "types": "/build/adapters/*.d.ts",
+      "import": "./build/adapters/*.js",
+      "require": "./build/adapters/*.cjs"
+    }
   },
   "repository": {
     "type": "git",

@@ -26,13 +26,13 @@ import { defineConfig } from "tsup"
 
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
-	splitting: true,
 	clean: true,
 	dts: true,
-	format: ["cjs", "esm"],
+	splitting: false,
 	bundle: true,
 	skipNodeModulesBundle: true,
-	entry: ["src/**/*.ts"],
+	format: ["cjs", "esm"],
+	entry: ["src/index.ts", "src/adapters/*.ts"],
 	target: ["node18", "chrome122"],
 	outDir: "build",
 })
