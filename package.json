@@ -44,12 +44,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/l_nik801_l/z-ipc.git"
+    "url": "git+https://github.com/lnik801l/z-ipc.git"
   },
   "author": "l_nik801_l",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/l_nik801_l/z-ipc/-/issues"
+    "url": "https://github.com/lnik801l/z-ipc/-/issues"
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.5.1",
