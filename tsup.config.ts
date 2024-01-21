@@ -8,7 +8,13 @@ export default defineConfig({
 	bundle: true,
 	skipNodeModulesBundle: true,
 	format: ["cjs", "esm"],
-	entry: ["src/index.ts", "src/adapters/*.ts"],
+	entry: [
+		"src/index.ts",
+		// adapters
+		"src/adapters/index.ts",
+		"src/adapters/worker-threads.ts",
+		"src/adapters/electron.ts",
+	],
 	target: ["node18", "chrome122"],
 	outDir: "build",
 })

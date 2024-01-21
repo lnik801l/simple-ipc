@@ -4,8 +4,7 @@
   "version": "0.0.1",
   "description": "",
   "files": [
-    "build",
-    "adapters"
+    "build"
   ],
   "scripts": {
     "lint:tsc": "tsc",
@@ -18,17 +17,30 @@
     "postversion": "git push && git push --tags",
     "release": "pnpm version -m 'chore(release): %s' --"
   },
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
   "exports": {
     ".": {
       "types": "./build/index.d.ts",
       "import": "./build/index.js",
       "require": "./build/index.cjs"
     },
-    "./adapters/*": {
-      "types": "/build/adapters/*.d.ts",
-      "import": "./build/adapters/*.js",
-      "require": "./build/adapters/*.cjs"
-    }
+    "./common": {
+      "types": "./build/adapters/index.d.ts",
+      "import": "./build/adapters/index.js",
+      "require": "./build/adapters/index.cjs"
+    },
+    "./electron": {
+      "types": "./build/adapters/electron.d.ts",
+      "import": "./build/adapters/electron.js",
+      "require": "./build/adapters/electron.cjs"
+    },
+    "./worker-threads": {
+      "types": "./build/adapters/worker-threads.d.ts",
+      "import": "./build/adapters/worker-threads.js",
+      "require": "./build/adapters/worker-threads.cjs"
+    },
+    "./package.json": "./package.json"
   },
   "repository": {
     "type": "git",
