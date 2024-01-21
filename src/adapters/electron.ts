@@ -13,18 +13,31 @@ const electronIpcChannel = "ipc::message"
  * Create an adapter that allows to communicate with renderer process from main process.
  */
 export function createRendererThreadAdapter<TMessage>(window: BrowserWindow) {
+	const wrappedSubscribers = new Map<
+		(message: TMessage) => void,
+		(event: IpcMainInvokeEvent, message: TMessage) => void
+	>()
+
 	return defineAdapter<TMessage>({
 		publish: (message) => {
 			window.webContents.send(electronIpcChannel, message)
 		},
 		subscribe: (callback) => {
-			ipcMain.handle(
-				electronIpcChannel,
-				(_: IpcMainInvokeEvent, message: TMessage) => callback(message),
-			)
+			const wrappedCallback = (_: IpcMainInvokeEvent, message: TMessage) =>
+				callback(message)
+
+			ipcMain.on(electronIpcChannel, wrappedCallback)
+
+			wrappedSubscribers.set(callback, wrappedCallback)
 		},
-		unsubscribe: () => {
-			throw new Error("cannot unsubscribe in main thread")
+		unsubscribe: (callback) => {
+			const wrappedCallback = wrappedSubscribers.get(callback)
+
+			if (!wrappedCallback) {
+				return
+			}
+
+			ipcMain.off(electronIpcChannel, wrappedCallback)
 		},
 	})
 }
@@ -57,7 +70,7 @@ export function createMainThreadAdapter<TMessage>() {
 				return
 			}
 
-			ipcMain.off(electronIpcChannel, wrappedCallback)
+			ipcRenderer.off(electronIpcChannel, wrappedCallback)
 		},
 	})
 }
