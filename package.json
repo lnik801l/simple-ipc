@@ -3,6 +3,14 @@
   "name": "z-ipc",
   "version": "0.0.5",
   "description": "",
+  "keywords": [
+    "ipc",
+    "typescript",
+    "worker_threads",
+    "electron",
+    "cross-process",
+    "communication-library"
+  ],
   "files": [
     "build"
   ],
