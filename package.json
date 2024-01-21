@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "name": "simple-ipc",
+  "name": "z-ipc",
   "version": "0.0.2",
   "description": "",
   "files": [
