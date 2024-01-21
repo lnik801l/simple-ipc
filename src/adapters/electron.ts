@@ -34,9 +34,7 @@ export function createElectronMainThreadAdapter<TMessage>(
 /**
  * Create an adapter that allows to communicate with main process from renderer process.
  */
-export function createElectronRendererThreadAdapter<TMessage>(
-	window: BrowserWindow,
-) {
+export function createElectronRendererThreadAdapter<TMessage>() {
 	const subscribers = new Map<
 		(message: TMessage) => void,
 		(event: IpcRendererEvent, message: TMessage) => void
@@ -44,7 +42,7 @@ export function createElectronRendererThreadAdapter<TMessage>(
 
 	return defineAdapter<TMessage>({
 		publish: (message) => {
-			window.webContents.send(electronIpcChannel, message)
+			ipcRenderer.send(electronIpcChannel, message)
 		},
 		subscribe: (callback) => {
 			const wrappedCallback = (_: IpcRendererEvent, message: TMessage) =>

@@ -1,14 +1,14 @@
 export namespace Message {
 	export type RpcRequest = {
 		kind: "rpc-request"
-		id: string
+		id: number
 		method: string
 		args: unknown[]
 	}
 
 	export type RpcResponse = {
 		kind: "rpc-response"
-		id: string
+		id: number
 		result:
 			| { error: false; value: unknown }
 			| { error: true; message: string; stack: string }
@@ -23,7 +23,7 @@ export namespace Message {
 
 export type Message = Message.RpcRequest | Message.RpcResponse | Message.Event
 
-export function createOkResponse(id: string, value: unknown): Message {
+export function createOkResponse(id: number, value: unknown): Message {
 	return {
 		kind: "rpc-response",
 		id,
@@ -34,7 +34,7 @@ export function createOkResponse(id: string, value: unknown): Message {
 	}
 }
 
-export function createErrorResponse(id: string, error: Error): Message {
+export function createErrorResponse(id: number, error: Error): Message {
 	return {
 		kind: "rpc-response",
 		id,

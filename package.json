@@ -4,6 +4,10 @@
   "version": "0.0.1",
   "description": "",
   "main": "build/index.ts",
+  "files": [
+    "build",
+    "adapters"
+  ],
   "scripts": {
     "lint:tsc": "tsc",
     "lint:eslint": "eslint src",
@@ -17,7 +21,6 @@
   },
   "exports": {
     "import": "./build/index.js",
-    "require": "./build/index.cjs",
     "types": "./build/index.d.ts"
   },
   "repository": {
@@ -43,5 +46,5 @@
   },
   "optionalDependencies": {
     "electron": "^28.1.3"
-  }
+    }
 }

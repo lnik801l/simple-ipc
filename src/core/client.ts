@@ -1,4 +1,3 @@
-import { v4 as randomUUID } from "uuid"
 import type { UnionToIntersection, Values } from "@/utils"
 import type { Adapter } from "./adapter"
 import type { Message } from "./message"
@@ -79,7 +78,7 @@ export function createClient<TProtocol extends Protocol>(
 	return {
 		protocol: undefined!,
 		call: ((method: string, ...args: unknown[]) => {
-			const id = randomUUID()
+			const id = Math.random()
 
 			return new Promise((resolve, reject) => {
 				const responseListener = (response: Message) => {
