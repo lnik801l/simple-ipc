@@ -1,0 +1,74 @@
+{
+  "type": "module",
+  "name": "simple-ipc",
+  "version": "0.0.1",
+  "description": "",
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "lint:tsc": "tsc",
+    "lint:eslint": "eslint src",
+    "lint:fix": "eslint --fix src",
+    "lint": "pnpm lint:tsc && pnpm lint:eslint",
+    "build:bundle": "tsup",
+    "build": "pnpm lint && pnpm build:bundle",
+    "prepublishOnly": "pnpm build",
+    "postversion": "git push && git push --tags",
+    "release": "pnpm version -m 'chore(release): %s' --"
+  },
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./build/index.d.ts",
+      "import": "./build/index.js",
+      "require": "./build/index.cjs"
+    },
+    "./common": {
+      "types": "./build/adapters/index.d.ts",
+      "import": "./build/adapters/index.js",
+      "require": "./build/adapters/index.cjs"
+    },
+    "./electron": {
+      "types": "./build/adapters/electron.d.ts",
+      "import": "./build/adapters/electron.js",
+      "require": "./build/adapters/electron.cjs"
+    },
+    "./worker-threads": {
+      "types": "./build/adapters/worker-threads.d.ts",
+      "import": "./build/adapters/worker-threads.js",
+      "require": "./build/adapters/worker-threads.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/l_nik801_l/simpleipc.git"
+  },
+  "author": "l_nik801_l",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/l_nik801_l/simpleipc/-/issues"
+  },
+  "devDependencies": {
+    "@total-typescript/ts-reset": "^0.5.1",
+    "@types/node": "^20.11.0",
+    "esbuild-plugin-file-path-extensions": "^2.0.0",
+    "eslint": "^8.56.0",
+    "eslint-kit": "^10.7.0",
+    "eslint-plugin-no-relative-import-paths": "^1.5.3",
+    "eslint-plugin-require-node-import-prefix": "^0.0.2",
+    "tsc-alias": "^1.8.8",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "electron": "^28.1.3"
+  },
+  "peerDependenciesMeta": {
+    "electron": {
+      "optional": true
+    }
+  }
+}
