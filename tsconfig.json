@@ -36,5 +36,5 @@
 		/* Completeness */
 		"skipLibCheck": true,
 	},
-	"exclude": ["src_old"]
+	"exclude": ["examples"]
 }
