@@ -23,6 +23,7 @@
     "build": "pnpm lint && pnpm build:bundle",
     "prepublishOnly": "pnpm build",
     "postversion": "git push && git push --tags",
+    "preversion": "pnpm build",
     "release": "pnpm version -m 'chore(release): %s' --"
   },
   "main": "./build/index.js",
