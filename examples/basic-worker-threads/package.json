@@ -1,0 +1,15 @@
+{
+  "name": "basic-worker-threads",
+  "module": "index.ts",
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "start": "bun ."
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "z-ipc": "^0.0.5"
+  }
+}
