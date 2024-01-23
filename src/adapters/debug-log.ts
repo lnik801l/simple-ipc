@@ -8,6 +8,9 @@ export function createDebugLogAdapter<TMessage>(
 	adapter: Adapter<TMessage>,
 	name: string,
 ) {
+	adapter.subscribe((message) => {
+		console.log(`[${name}] message`, message)
+	})
 	return defineAdapter<TMessage>({
 		publish: (message) => {
 			console.log(`[${name}] publish`, message)
