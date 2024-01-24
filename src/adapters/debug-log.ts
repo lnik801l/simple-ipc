@@ -17,11 +17,11 @@ export function createDebugLogAdapter<TMessage>(
 			adapter.publish(message)
 		},
 		subscribe: (listener) => {
-			console.log(`[${name}] subscribe`, listener)
+			console.log(`[${name}] subscribe`)
 			return adapter.subscribe(listener)
 		},
 		unsubscribe: (listener) => {
-			console.log(`[${name}] unsubscribe`, listener)
+			console.log(`[${name}] unsubscribe`)
 			return adapter.unsubscribe(listener)
 		},
 	})

@@ -1,13 +1,20 @@
 import {
-	type BrowserWindow,
-	ipcMain,
+	BrowserWindow,
 	type IpcMainInvokeEvent,
-	ipcRenderer,
 	type IpcRendererEvent,
 } from "electron"
+import { ipcMain, ipcRenderer } from "electron"
 import { defineAdapter } from "@/core"
 
 const electronIpcChannel = "ipc::message"
+const electronIpcWindowChannel = [electronIpcChannel, "window-id"].join("::")
+
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+if (ipcMain) {
+	ipcMain.on(electronIpcWindowChannel, (event) => {
+		event.returnValue = BrowserWindow.fromWebContents(event.sender)!.id
+	})
+}
 
 /**
  * Create an adapter that allows to communicate with renderer process from main process.
@@ -17,16 +24,17 @@ export function createRendererThreadAdapter<TMessage>(window: BrowserWindow) {
 		(message: TMessage) => void,
 		(event: IpcMainInvokeEvent, message: TMessage) => void
 	>()
+	const channel = [electronIpcChannel, window.id].join("::")
 
 	return defineAdapter<TMessage>({
 		publish: (message) => {
-			window.webContents.send(electronIpcChannel, message)
+			window.webContents.send(channel, message)
 		},
 		subscribe: (callback) => {
 			const wrappedCallback = (_: IpcMainInvokeEvent, message: TMessage) =>
 				callback(message)
 
-			ipcMain.on(electronIpcChannel, wrappedCallback)
+			ipcMain.on(channel, wrappedCallback)
 
 			wrappedSubscribers.set(callback, wrappedCallback)
 		},
@@ -37,7 +45,7 @@ export function createRendererThreadAdapter<TMessage>(window: BrowserWindow) {
 				return
 			}
 
-			ipcMain.off(electronIpcChannel, wrappedCallback)
+			ipcMain.off(channel, wrappedCallback)
 		},
 	})
 }
@@ -51,15 +59,20 @@ export function createMainThreadAdapter<TMessage>() {
 		(event: IpcRendererEvent, message: TMessage) => void
 	>()
 
+	const channel = [
+		electronIpcChannel,
+		ipcRenderer.sendSync(electronIpcWindowChannel),
+	].join("::")
+
 	return defineAdapter<TMessage>({
 		publish: (message) => {
-			ipcRenderer.send(electronIpcChannel, message)
+			ipcRenderer.send(channel, message)
 		},
 		subscribe: (callback) => {
 			const wrappedCallback = (_: IpcRendererEvent, message: TMessage) =>
 				callback(message)
 
-			ipcRenderer.on(electronIpcChannel, wrappedCallback)
+			ipcRenderer.on(channel, wrappedCallback)
 
 			wrappedSubscribers.set(callback, wrappedCallback)
 		},
@@ -70,7 +83,7 @@ export function createMainThreadAdapter<TMessage>() {
 				return
 			}
 
-			ipcRenderer.off(electronIpcChannel, wrappedCallback)
+			ipcRenderer.off(channel, wrappedCallback)
 		},
 	})
 }
