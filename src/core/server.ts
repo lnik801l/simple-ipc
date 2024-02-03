@@ -57,6 +57,7 @@ export function createServer<TProtocol extends Protocol>(
 
 			adapter.publish(createOkResponse(message.id, result))
 		} catch (error) {
+			console.error(error)
 			if (error instanceof Error) {
 				adapter.publish(createErrorResponse(message.id, error))
 			} else {
